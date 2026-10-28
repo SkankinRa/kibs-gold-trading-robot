@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1220">
+  <title>Kibs Gold Trading Robot</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand-mark">Au</div>
+    <div class="brand-copy">
+      <h1>KIBS <span>GOLD</span></h1>
+      <p>Gold market analysis dashboard</p>
+    </div>
+    <div class="mode-pill"><span class="pulse"></span> SIGNALS ONLY</div>
+  </header>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <p class="eyebrow">MARKET WATCH</p>
+        <h2>XAU / USD <span class="market-name">Gold spot</span></h2>
+        <p class="subline">Reference spot price · Not a broker execution quote</p>
+      </div>
+      <div class="price-panel">
+        <div id="spotPrice" class="spot-price">--</div>
+        <div id="priceMeta" class="price-meta">Waiting for real market data…</div>
+      </div>
+    </section>
+
+    <section class="status-row">
+      <div class="status-card">
+        <span class="status-label">DATA STATUS</span>
+        <strong id="dataStatus">CONNECTING</strong>
+        <small id="dataUpdated">Checking provider</small>
+      </div>
+      <div class="status-card">
+        <span class="status-label">TIMEFRAME</span>
+        <div class="timeframes" role="group" aria-label="Chart timeframe">
+          <button data-timeframe="5" class="tf-btn">5m</button>
+          <button data-timeframe="15" class="tf-btn active">15m</button>
+          <button data-timeframe="60" class="tf-btn">1h</button>
+        </div>
+        <small>Source samples are about 5 minutes apart</small>
+      </div>
+      <div class="status-card">
+        <span class="status-label">SIGNAL</span>
+        <strong id="signalLabel" class="signal-wait">WAIT</strong>
+        <small id="signalReason">Waiting for enough real observations</small>
+      </div>
+    </section>
+
+    <section class="panel chart-panel">
+      <div class="panel-heading">
+        <div>
+          <h3>Gold price chart</h3>
+          <p>Sampled-price candles with EMA 20 and EMA 50</p>
+        </div>
+        <button id="refreshBtn" class="refresh-btn">↻ Refresh</button>
+      </div>
+      <div id="chart" aria-label="Gold candlestick chart"></div>
+      <div class="legend">
+        <span><i class="dot candle-dot"></i> XAU/USD sampled candles</span>
+        <span><i class="dot ema20-dot"></i> EMA 20</span>
+        <span><i class="dot ema50-dot"></i> EMA 50</span>
+      </div>
+      <p class="chart-note">Important: this free feed provides sampled spot prices, not exchange-grade OHLC candles. Candle open/high/low/close values are aggregated only from real returned observations. Missing data is not filled with invented prices.</p>
+    </section>
+
+    <section class="grid-two">
+      <article class="panel indicator-panel">
+        <div class="panel-heading">
+          <div>
+            <h3>Indicator summary</h3>
+            <p>Calculated from the displayed candles</p>
+          </div>
+        </div>
+        <div class="indicator-row"><span>EMA 20</span><strong id="ema20Value">--</strong></div>
+        <div class="indicator-row"><span>EMA 50</span><strong id="ema50Value">--</strong></div>
+        <div class="indicator-row"><span>Last candle</span><strong id="lastCandle">--</strong></div>
+        <div class="indicator-row"><span>Observations</span><strong id="observationCount">0</strong></div>
+      </article>
+
+      <article class="panel rules-panel">
+        <div class="panel-heading">
+          <div>
+            <h3>Signal rules</h3>
+            <p>Simple trend filter, not a guarantee</p>
+          </div>
+        </div>
+        <div class="rule"><span class="rule-bullet buy-bullet"></span><div><strong>BUY bias</strong><p>Latest close above EMA 20, and EMA 20 above EMA 50.</p></div></div>
+        <div class="rule"><span class="rule-bullet sell-bullet"></span><div><strong>SELL bias</strong><p>Latest close below EMA 20, and EMA 20 below EMA 50.</p></div></div>
+        <div class="rule"><span class="rule-bullet wait-bullet"></span><div><strong>WAIT</strong><p>Trend conditions disagree or there is not enough fresh data.</p></div></div>
+        <div class="manual-note">No orders are placed by this website. Confirm any trade yourself with your chosen broker and check the broker's own quote first.</div>
+      </article>
+    </section>
+
+    <section class="footer-source">
+      <div>
+        <strong>Data source</strong>
+        <p>Gold spot reference data supplied by XAUS. Data may be delayed or temporarily unavailable.</p>
+      </div>
+      <a href="https://xaus.com/api/" target="_blank" rel="noopener noreferrer">XAUS API details ↗</a>
+    </section>
+    <footer>© <span id="year"></span> Kibs Gold Trading Robot · Analysis only · Not financial advice</footer>
+  </main>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
