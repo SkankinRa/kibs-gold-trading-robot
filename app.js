@@ -210,26 +210,44 @@
   }
 
   function calculateStochastic(candleList) {
-    if (candleList.length < STOCH_K) return null;
-    const recent = candleList.slice(-STOCH_K);
-    let highestHigh = -Infinity;
-    let lowestLow = Infinity;
+  if (!Array.isArray(candleList) || candleList.length < 1) {
+    return null;
+  }
 
-    recent.forEach((c) => {
-      highestHigh = Math.max(highestHigh, c.high);
-      lowestLow = Math.min(lowestLow, c.low);
-    });
+  // Stochastic K=1, D=1, slowing=1.
+  // Use the candle's actual Close, High and Low.
+  const candle = candleList[candleList.length - 1];
 
-    if (!Number.isFinite(highestHigh) || !Number.isFinite(lowestLow)) return null;
-    const range = highestHigh - lowestLow;
-    // A zero-range candle cannot establish momentum; use neutral, not a fabricated extreme.
-    const rawK = range === 0 ? 50 : ((recent[recent.length - 1].close - lowestLow) / range) * 100;
+  const high = Number(candle.high);
+  const low = Number(candle.low);
+  const close = Number(candle.close);
 
-    // With K=1, D=1 and slowing=1, %D equals the unsmoothed %K.
-    return {
-      k: Math.max(0, Math.min(100, rawK)),
-      d: Math.max(0, Math.min(100, rawK))
-    };
+  if (
+    !Number.isFinite(high) ||
+    !Number.isFinite(low) ||
+    !Number.isFinite(close) ||
+    high < low ||
+    close < low ||
+    close > high
+  ) {
+    return null;
+  }
+
+  const range = high - low;
+
+  // Avoid dividing by zero when the candle has no price range.
+  const rawK = range === 0
+    ? 50
+    : ((close - low) / range) * 100;
+
+  const k = Math.max(0, Math.min(100, rawK));
+
+  // D=1 and slowing=1: no additional smoothing.
+  return {
+    k: k,
+    d: k
+  };
+
   }
 
   function setSignal(labelText, className, reason) {
