@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-
 :root {
   color-scheme: dark;
   --bg: #080d16;
@@ -48,30 +47,37 @@ h2 { font: 700 clamp(25px, 4vw, 36px) 'Space Grotesk', sans-serif; margin: 0; le
 .chart-panel { margin-bottom: 16px; }
 .panel-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
 .panel-heading h3 { margin: 0; font: 600 15px 'Space Grotesk', sans-serif; }
-.panel-heading p { color: var(--muted); font-size: 11px; margin: 5px 0 0; }
+.panel-heading p { color: var(--muted); font-size: 11px; margin: 5px 0 0; line-height: 1.5; }
 .refresh-btn { background: #1b2a3e; border: 1px solid #34465d; border-radius: 9px; color: var(--text); padding: 9px 13px; cursor: pointer; font: 600 11px 'DM Sans', sans-serif; }
 .refresh-btn:disabled { opacity: .55; cursor: wait; }
 #chart { height: 370px; width: 100%; }
 .legend { display: flex; flex-wrap: wrap; gap: 17px; margin-top: 12px; color: #a8b6c8; font-size: 10px; }
 .legend span { display: flex; align-items: center; gap: 7px; }
 .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-.candle-dot { background: var(--green); }.ema20-dot { background: #e9c65c; }.ema50-dot { background: #67a8ff; }
+.candle-dot { background: var(--green); }
+.lwma300-dot { background: #111111; border: 1px solid #7d8da3; }
+.lwma100-dot { background: var(--gold); }
 .chart-note { color: #9eabc0; font-size: 10px; line-height: 1.6; margin: 13px 0 0; padding-top: 12px; border-top: 1px solid #243247; }
 .grid-two { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .indicator-row { display: flex; justify-content: space-between; gap: 12px; padding: 13px 0; border-bottom: 1px solid #243247; color: var(--muted); font-size: 12px; }
 .indicator-row:last-child { border-bottom: 0; }
-.indicator-row strong { color: var(--text); font: 600 13px 'Space Grotesk', sans-serif; }
+.indicator-row strong { color: var(--text); font: 600 13px 'Space Grotesk', sans-serif; text-align: right; }
 .rule { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; }
 .rule-bullet { flex: 0 0 8px; height: 8px; border-radius: 50%; margin-top: 5px; }
-.buy-bullet { background: var(--green); }.sell-bullet { background: var(--red); }.wait-bullet { background: var(--gold); }
-.rule strong { font-size: 12px; }.rule p { color: var(--muted); margin: 4px 0 0; font-size: 11px; line-height: 1.5; }
+.buy-bullet { background: var(--green); }
+.sell-bullet { background: var(--red); }
+.wait-bullet { background: var(--gold); }
+.rule strong { font-size: 12px; }
+.rule p { color: var(--muted); margin: 4px 0 0; font-size: 11px; line-height: 1.5; }
 .manual-note { background: #1a2433; border: 1px solid #344055; color: #b8c6d8; border-radius: 10px; padding: 12px; font-size: 10px; line-height: 1.55; margin-top: 12px; }
 .footer-source { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin: 18px 2px; padding: 15px 0; border-top: 1px solid #202d40; border-bottom: 1px solid #202d40; }
-.footer-source strong { font-size: 11px; }.footer-source p { color: var(--muted); font-size: 10px; line-height: 1.5; margin: 5px 0 0; }
+.footer-source strong { font-size: 11px; }
+.footer-source p { color: var(--muted); font-size: 10px; line-height: 1.5; margin: 5px 0 0; }
 .footer-source a { color: var(--gold); font-size: 11px; white-space: nowrap; }
 footer { text-align: center; color: #687a92; font-size: 10px; padding: 10px 0 22px; }
 #toast { position: fixed; left: 50%; bottom: 20px; transform: translate(-50%, 20px); background: #26354a; color: white; border: 1px solid #52647c; padding: 11px 15px; border-radius: 10px; font-size: 12px; opacity: 0; pointer-events: none; transition: .2s; max-width: calc(100% - 30px); z-index: 10; }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
+.chart-error { display: grid; place-content: center; text-align: center; height: 100%; padding: 25px; color: #ffb2bb; font-size: 12px; line-height: 1.7; }
 @media (max-width: 720px) {
   .topbar { padding: 13px 16px; min-height: 72px; }
   .mode-pill { font-size: 8px; padding: 7px 9px; }
@@ -90,6 +96,5 @@ footer { text-align: center; color: #687a92; font-size: 10px; padding: 10px 0 22
   .mode-pill { padding: 6px 7px; }
   .status-card { padding: 12px; }
   .tf-btn { padding: 6px 10px; }
+  .panel { padding: 14px; }
 }
-
-.chart-error { display:grid; place-content:center; text-align:center; height:100%; padding:25px; color:#ffb2bb; font-size:12px; line-height:1.7; }

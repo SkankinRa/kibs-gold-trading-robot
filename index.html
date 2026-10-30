@@ -44,7 +44,7 @@
           <button data-timeframe="15" class="tf-btn active">15m</button>
           <button data-timeframe="60" class="tf-btn">1h</button>
         </div>
-        <small>Source samples are about 5 minutes apart</small>
+        <small>Free feed observations are sampled, not full exchange candles</small>
       </div>
       <div class="status-card">
         <span class="status-label">SIGNAL</span>
@@ -57,15 +57,15 @@
       <div class="panel-heading">
         <div>
           <h3>Gold price chart</h3>
-          <p>Sampled-price candles with EMA 20 and EMA 50</p>
+          <p>Sampled-price candles with LWMA 300 and LWMA 100 of LWMA 300</p>
         </div>
         <button id="refreshBtn" class="refresh-btn">↻ Refresh</button>
       </div>
       <div id="chart" aria-label="Gold candlestick chart"></div>
       <div class="legend">
         <span><i class="dot candle-dot"></i> XAU/USD sampled candles</span>
-        <span><i class="dot ema20-dot"></i> EMA 20</span>
-        <span><i class="dot ema50-dot"></i> EMA 50</span>
+        <span><i class="dot lwma300-dot"></i> LWMA 300 (HLCC/4)</span>
+        <span><i class="dot lwma100-dot"></i> LWMA 100 of LWMA 300</span>
       </div>
       <p class="chart-note">Important: this free feed provides sampled spot prices, not exchange-grade OHLC candles. Candle open/high/low/close values are aggregated only from real returned observations. Missing data is not filled with invented prices.</p>
     </section>
@@ -75,26 +75,36 @@
         <div class="panel-heading">
           <div>
             <h3>Indicator summary</h3>
-            <p>Calculated from the displayed candles</p>
+            <p>Calculated from displayed sampled candles</p>
           </div>
         </div>
-        <div class="indicator-row"><span>EMA 20</span><strong id="ema20Value">--</strong></div>
-        <div class="indicator-row"><span>EMA 50</span><strong id="ema50Value">--</strong></div>
-        <div class="indicator-row"><span>Last candle</span><strong id="lastCandle">--</strong></div>
-        <div class="indicator-row"><span>Observations</span><strong id="observationCount">0</strong></div>
+        <div class="indicator-row"><span>LWMA 300 · HLCC/4</span><strong id="lwma300Value">--</strong></div>
+        <div class="indicator-row"><span>LWMA 100 of LWMA 300</span><strong id="lwma100Value">--</strong></div>
+        <div class="indicator-row"><span>Stochastic %K / %D</span><strong id="stochasticValue">--</strong></div>
+        <div class="indicator-row"><span>Last candle close</span><strong id="lastCandle">--</strong></div>
+        <div class="indicator-row"><span>Real observations</span><strong id="observationCount">0</strong></div>
       </article>
 
       <article class="panel rules-panel">
         <div class="panel-heading">
           <div>
             <h3>Signal rules</h3>
-            <p>Simple trend filter, not a guarantee</p>
+            <p>LWMA trend + Stochastic (1,1,1)</p>
           </div>
         </div>
-        <div class="rule"><span class="rule-bullet buy-bullet"></span><div><strong>BUY bias</strong><p>Latest close above EMA 20, and EMA 20 above EMA 50.</p></div></div>
-        <div class="rule"><span class="rule-bullet sell-bullet"></span><div><strong>SELL bias</strong><p>Latest close below EMA 20, and EMA 20 below EMA 50.</p></div></div>
-        <div class="rule"><span class="rule-bullet wait-bullet"></span><div><strong>WAIT</strong><p>Trend conditions disagree or there is not enough fresh data.</p></div></div>
-        <div class="manual-note">No orders are placed by this website. Confirm any trade yourself with your chosen broker and check the broker's own quote first.</div>
+        <div class="rule">
+          <span class="rule-bullet buy-bullet"></span>
+          <div><strong>BUY WATCH</strong><p>LWMA 100 of LWMA 300 is above LWMA 300, and Stochastic is at or below 20.</p></div>
+        </div>
+        <div class="rule">
+          <span class="rule-bullet sell-bullet"></span>
+          <div><strong>SELL WATCH</strong><p>LWMA 100 of LWMA 300 is below LWMA 300, and Stochastic is at or above 80.</p></div>
+        </div>
+        <div class="rule">
+          <span class="rule-bullet wait-bullet"></span>
+          <div><strong>WAIT</strong><p>Conditions do not match, data is stale, or enough candles are not available.</p></div>
+        </div>
+        <div class="manual-note">No orders are placed by this website. Signals are not guarantees. Confirm any trade manually using your broker's own quote and risk controls.</div>
       </article>
     </section>
 
